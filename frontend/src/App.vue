@@ -3,40 +3,70 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <nav class="top-nav">
-      <RouterLink to="/">Home</RouterLink> |
-      <RouterLink to="/contact">Contacts</RouterLink> |
-      <RouterLink to="/login">Login</RouterLink> |
-      <RouterLink to="/signup">Signup</RouterLink>
-    </nav>
-  </header>
+  <div class="app-container">
+    <header>
+      <nav class="top-nav">
+        <RouterLink to="/">Home</RouterLink> |
+        <RouterLink to="/contact">Contacts</RouterLink> |
+        <RouterLink to="/login">Login</RouterLink> |
+        <RouterLink to="/signup">Signup</RouterLink>
+      </nav>
+    </header>
 
-  <RouterView />
+    <!-- Siia laetakse lehe sisu (Home, Login jne) -->
+    <main class="main-content">
+      <RouterView />
+    </main>
+
+    <!-- See on FOOTER, mis on nüüd igal lehel -->
+    <footer class="app-footer">
+      <p>Homework 4 - Sinu Nimi - 2025</p>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
-.top-nav {
-  background-color: #ccc; /* Hall riba nagu pildil */
-  padding: 10px;
-  text-align: center;
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 20px;
+/* See konteiner tagab, et footer on alati all */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Terve ekraani kõrgus */
+  font-family: Arial, sans-serif;
 }
 
-a {
+.top-nav {
+  background-color: #ccc; /* Hall riba */
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 0 0 10px 10px; /* Ümarad nurgad all */
+}
+
+.top-nav a {
   text-decoration: none;
   color: #333;
-  font-weight: bold;
-  margin: 0 5px;
+  margin: 0 10px;
 }
 
-a.router-link-active {
+.top-nav a.router-link-active {
   color: #000;
   text-decoration: underline;
 }
-</style>
 
-<style scoped>
-/* Siia tuleb hiljem disain */
+.main-content {
+  flex: 1; /* See lükkab footeri lehe alla */
+  padding: 20px;
+  display: flex;
+  justify-content: center; /* Hoiab sisu keskel */
+}
+
+.app-footer {
+  background-color: #ccc;
+  padding: 15px;
+  text-align: center;
+  color: #555;
+  font-size: 0.9em;
+  border-radius: 10px 10px 0 0; /* Ümarad nurgad üleval */
+  margin-top: 20px;
+}
 </style>

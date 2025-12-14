@@ -3,9 +3,8 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const posts = ref([]) // Siia laeme postitused
+const posts = ref([])
 
-// See funktsioon teeb kuupäeva ilusaks (nt "Dec 14, 2025")
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' }
   return new Date(dateString).toLocaleDateString('en-US', options)
@@ -13,25 +12,16 @@ const formatDate = (dateString) => {
 
 onMounted(async () => {
   const token = localStorage.getItem('token')
-
-  // 1. Turvakontroll
   if (!token) {
     router.push('/login')
     return
   }
-
-  // 2. Laeme postitused serverist
   try {
     const response = await fetch('http://localhost:3000/api/posts', {
-      headers: {
-        'Authorization': `Bearer ${token}` // Näitame serverile "ID-kaarti"
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     })
-
     if (response.ok) {
-      posts.value = await response.json() // Salvestame postitused muutujasse
-    } else {
-      console.error("Viga postituste laadimisel")
+      posts.value = await response.json()
     }
   } catch (error) {
     console.error(error)
@@ -43,46 +33,35 @@ const handleLogout = () => {
   router.push('/login')
 }
 
-const goToAddPost = () => {
-  router.push('/addpost')
-}
+const goToAddPost = () => { router.push('/addpost') }
 
 const handleDeleteAll = async () => {
   const token = localStorage.getItem('token')
   try {
-    // Saadame serverile käsu KUSTUTA KÕIK
     await fetch('http://localhost:3000/api/posts', {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     })
-
-    // Tühjendame ka ekraani koheselt
     posts.value = []
-  } catch (error) {
-    console.error(error)
-  }
+  } catch (error) { console.error(error) }
 }
 
-// See viib üksiku postituse vaatesse (teeme järgmisena)
-const goToPost = (postId) => {
-  router.push(`/post/${postId}`)
-}
+const goToPost = (postId) => { router.push(`/post/${postId}`) }
 </script>
 
 <template>
-  <div class="home-container">
-    <div class="content-card">
-      <div class="header-row">
-        <h3>Home | Contacts</h3>
-      </div>
+  <div class="home-layout">
 
+    <!-- 1. Logout nupp (Keskel) -->
+    <div class="top-bar">
       <button @click="handleLogout" class="logout-btn">Logout</button>
+    </div>
 
-      <div class="posts-area">
-        <!-- Kui postitusi pole, näita kirja -->
-        <p v-if="posts.length === 0">No posts yet.</p>
+    <!-- 2. Postituste ala (Ilma küljekastideta) -->
+    <div class="content-area">
+      <div class="posts-container">
+        <p v-if="posts.length === 0" class="no-posts">No posts yet.</p>
 
-        <!-- Kui on postitusi, joonista igaühe jaoks kast -->
         <div
             v-for="post in posts"
             :key="post.id"
@@ -94,111 +73,129 @@ const goToPost = (postId) => {
           </div>
           <p class="post-body">{{ post.body }}</p>
         </div>
-
       </div>
+    </div>
 
-      <div class="footer-row">
-        <button @click="goToAddPost" class="action-btn add-btn">Add post</button>
-        <button @click="handleDeleteAll" class="action-btn delete-btn">Delete all</button>
-      </div>
+    <!-- 3. Nupud (Joondatud täpselt postituste servadega) -->
+    <div class="bottom-bar">
+      <button @click="goToAddPost" class="action-btn add-btn">Add post</button>
+      <button @click="handleDeleteAll" class="action-btn delete-btn">Delete all</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.home-container {
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-}
-
-.content-card {
-  background-color: #e0e0e0;
+/* Üldine raam */
+.home-layout {
+  width: 100%;
+  max-width: 500px; /* Natuke kitsam ja elegantsem */
+  border: 1px solid #999;
   padding: 20px;
   border-radius: 15px;
-  width: 400px;
-  text-align: center;
-  min-height: 500px;
+  background-color: white;
   display: flex;
   flex-direction: column;
 }
 
-.header-row {
-  background-color: #ccc;
-  padding: 10px;
-  border-radius: 10px;
+/* Logout */
+.top-bar {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
-  font-weight: bold;
 }
 
 .logout-btn {
-  align-self: flex-end;
-  background-color: #3498db;
-  color: white;
+  background-color: #6fa8dc;
+  color: black;
   border: none;
-  padding: 5px 15px;
-  border-radius: 5px;
+  padding: 8px 30px;
+  border-radius: 20px;
   cursor: pointer;
-  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 0.9em;
 }
 
-.posts-area {
-  flex-grow: 1;
-  background-color: white; /* Valge taust postituste taga */
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  overflow-y: auto; /* Kui postitusi on palju, tekib kerimisriba */
-}
-
-/* Üksiku postituse disain (hall kastike) */
-.post-item {
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  padding: 10px;
+/* Sisu ala */
+.content-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
   margin-bottom: 15px;
-  cursor: pointer; /* Hiir muutub käekujuliseks */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.posts-container {
+  width: 100%;
+  height: 400px; /* Fikseeritud kõrgus */
+  overflow-y: auto; /* Kerimisriba */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  /* Ilusasti raamitud sisu */
+  padding: 5px;
+}
+
+.no-posts {
+  text-align: center;
+  color: #888;
+  margin-top: 50px;
+}
+
+/* Postituse disain */
+.post-item {
+  background-color: #e0e0e0;
+  padding: 15px;
+  border-radius: 15px;
+  cursor: pointer;
   text-align: left;
+  transition: transform 0.1s; /* Väike efekt */
 }
 
 .post-item:hover {
-  background-color: #e8e8e8; /* Läheb natuke tumedamaks kui hiirega peale minna */
+  transform: scale(1.01); /* Läheb hiirega natuke suuremaks */
+  background-color: #d6d6d6;
 }
 
 .post-header {
-  display: flex;
-  justify-content: flex-end; /* Kuupäev paremale */
+  text-align: right;
   font-size: 0.8em;
-  color: #666;
   margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
 }
 
 .post-body {
-  font-size: 1.1em;
-  color: #333;
   margin: 0;
+  font-size: 1.1em;
+  word-wrap: break-word; /* Et pikk tekst ei läheks kastist välja */
 }
 
-.footer-row {
+/* Alumised nupud */
+.bottom-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Lükkab nupud äärtesse */
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .action-btn {
-  padding: 10px 20px;
+  background-color: #6fa8dc;
   border: none;
-  border-radius: 5px;
+  padding: 10px 25px;
+  border-radius: 20px;
   cursor: pointer;
-  color: white;
+  color: black;
   font-weight: bold;
 }
 
-.add-btn {
-  background-color: #3498db;
+.action-btn:hover {
+  background-color: #5b9bd5;
 }
 
-.delete-btn {
-  background-color: #3498db; /* Kodutöö pildil on mõlemad sinised */
+/* Alumine hall riba */
+.card-footer-bar {
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  width: 100%;
 }
 </style>
