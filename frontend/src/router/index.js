@@ -4,6 +4,7 @@ import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import AddPost from '../views/AddPost.vue'
 import SinglePost from '../views/SinglePost.vue'
+import ContactView from '../views/ContactView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/post/:id', // :id tähendab, et siia tuleb number
       name: 'singlepost',
       component: SinglePost
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: ContactView // Enne oli siin HomeView, nüüd ContactView
     }
   ]
 })
