@@ -85,34 +85,43 @@ const goToPost = (postId) => { router.push(`/post/${postId}`) }
 </template>
 
 <style scoped>
-/* Üldine raam */
+/* Üldine paigutus */
 .home-layout {
   width: 100%;
-  max-width: 500px; /* Natuke kitsam ja elegantsem */
-  border: 1px solid #999;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: white;
+  max-width: 500px;
+  border-radius: 20px; /* Ümaramad servad */
+  background: #ffffff;
+  padding: 25px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Õrn vari raamile */
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Logout */
+/* Ülemine riba */
 .top-bar {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
+/* Logout nupp */
 .logout-btn {
-  background-color: #6fa8dc;
-  color: black;
+  background: linear-gradient(135deg, #6fa8dc, #3b82f6); /* Kaunis gradient */
+  color: white;
   border: none;
-  padding: 8px 30px;
-  border-radius: 20px;
+  padding: 10px 35px;
+  border-radius: 25px; /* Ümarad nupud */
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.9em;
+  font-weight: 600;
+  font-size: 0.95em;
+  transition: all 0.2s ease; /* Sujuv hover efekt */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Õrn varjuefekt */
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px); /* Kergelt üles liikumine hoveril */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Tugevam vari hoveril */
 }
 
 /* Sisu ala */
@@ -125,77 +134,90 @@ const goToPost = (postId) => { router.push(`/post/${postId}`) }
 
 .posts-container {
   width: 100%;
-  height: 400px; /* Fikseeritud kõrgus */
+  height: 400px;
   overflow-y: auto; /* Kerimisriba */
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  /* Ilusasti raamitud sisu */
+  gap: 15px; /* Vahe postituste vahel */
   padding: 5px;
 }
 
+/* Tekst, kui postitusi pole */
 .no-posts {
   text-align: center;
-  color: #888;
+  color: #aaa;
+  font-style: italic;
   margin-top: 50px;
 }
 
-/* Postituse disain */
+/* Üksik postitus */
 .post-item {
-  background-color: #e0e0e0;
-  padding: 15px;
-  border-radius: 15px;
+  background: linear-gradient(145deg, #f0f0f0, #e0e0e0); /* Pehme gradient */
+  padding: 18px;
+  border-radius: 20px; /* Ümarad postitused */
   cursor: pointer;
   text-align: left;
-  transition: transform 0.1s; /* Väike efekt */
+  transition: all 0.2s ease; /* Sujuv hover efekt */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Väike vari */
 }
 
 .post-item:hover {
-  transform: scale(1.01); /* Läheb hiirega natuke suuremaks */
-  background-color: #d6d6d6;
+  transform: translateY(-3px) scale(1.02); /* Natuke suuremaks ja üles hoveril */
+  background: linear-gradient(145deg, #e0e0e0, #d0d0d0); /* Hoveril tumedam gradient */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Tugevam vari */
 }
 
+/* Postituse kuupäev ja pealkiri */
 .post-header {
   text-align: right;
   font-size: 0.8em;
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-weight: 600;
   color: #555;
 }
 
+/* Postituse sisu */
 .post-body {
   margin: 0;
   font-size: 1.1em;
-  word-wrap: break-word; /* Et pikk tekst ei läheks kastist välja */
+  line-height: 1.5;
+  word-wrap: break-word; /* Tekst ei lähe kastist välja */
+  color: #333;
 }
 
 /* Alumised nupud */
 .bottom-bar {
   display: flex;
-  justify-content: space-between; /* Lükkab nupud äärtesse */
+  justify-content: space-between; /* Nupud ääres */
   width: 100%;
   margin-bottom: 15px;
 }
 
+/* Toimingunupud (Add/Delete) */
 .action-btn {
-  background-color: #6fa8dc;
+  background: linear-gradient(135deg, #6fa8dc, #3b82f6); /* Gradient */
   border: none;
-  padding: 10px 25px;
-  border-radius: 20px;
+  padding: 12px 30px;
+  border-radius: 25px; /* Ümarad nupud */
   cursor: pointer;
-  color: black;
-  font-weight: bold;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95em;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Õrn vari */
 }
 
 .action-btn:hover {
-  background-color: #5b9bd5;
+  transform: translateY(-2px); /* Kergelt üles hoveril */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #5b9bd5, #2176f2); /* Tumedam gradient hoveril */
 }
 
-/* Alumine hall riba */
+/* Alumine hall riba (valikuline) */
 .card-footer-bar {
   height: 30px;
-  background-color: #ccc;
-  border-radius: 15px;
+  background-color: #eee;
+  border-radius: 20px;
   width: 100%;
 }
 </style>

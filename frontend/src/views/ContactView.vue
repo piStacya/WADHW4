@@ -19,26 +19,53 @@
 </template>
 
 <style scoped>
-/* Sama disain mis Login/Signup lehel */
+/* Üldine konteiner */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 80vh; /* Keskendatud vertikaalselt */
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Kaart */
 .auth-card {
-  background-color: #e0e0e0;
+  background: linear-gradient(145deg, #ffffff, #e0e0e0); /* Kerge gradient kaardile */
   padding: 40px;
-  border-radius: 15px;
+  border-radius: 25px; /* Ümarad servad */
   width: 350px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Sügavam vari */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.auth-card:hover {
+  transform: translateY(-5px); /* Hoveril kerge tõstmine */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Hoveri vari tugevam */
+}
+
+/* Pealkiri */
+.auth-card h3 {
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: 600;
+  font-size: 1.5em;
+}
+
+/* Kontaktinfo */
 .contact-info {
   text-align: left;
   margin-top: 20px;
   line-height: 1.6;
+  color: #444;
 }
+
+.contact-info p {
+  margin: 8px 0;
+}
+
+.contact-info strong {
+  color: #333; /* Tugevam rõhutus nimedele */
+}
+
 </style>
