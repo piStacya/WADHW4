@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
+import AddPost from '../views/AddPost.vue'
+import SinglePost from '../views/SinglePost.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,16 @@ const router = createRouter({
       name: 'contact',
       // Contact lehe teeme hiljem, praegu kasutame HomeView-d kohahoidjana
       component: HomeView
+    },
+    {
+      path: '/addpost',
+      name: 'addpost',
+      component: AddPost
+    },
+    {
+      path: '/post/:id', // :id tähendab, et siia tuleb number
+      name: 'singlepost',
+      component: SinglePost
     }
   ]
 })
